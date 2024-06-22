@@ -8,10 +8,13 @@ import (
 	"os"
 	"time"
 
+    _ "Distributed-Systems-24-summer/backend/docs"
+    httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
 )
 
 // todo struct to hold tasks
@@ -173,6 +176,16 @@ func add_todo_single(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(todo.Task)
 }
 
+/*------some general info for swagger docs-----*/
+// @title Todo API
+// @version 1.0
+// @description Backend endpoints created for distributed systems lab
+
+// @contact.name Friedrich Lohrmann
+// @contact.email frloit01@hs-esslingen.de
+
+// @host localhost:8080
+// @BasePath /todos
 func main() {
 	//-----mongoDB connection-----//
 
@@ -196,6 +209,10 @@ func main() {
 	router.HandleFunc("/todos/{task}", get_todo_single).Methods("GET")
 	router.HandleFunc("/todos/{task}", delete_todo_single).Methods("DELETE")
 	router.HandleFunc("/todos/{task}", add_todo_single).Methods("POST")
+
+    //swagger endpoint
+    router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
+
 	//default handler for incoming requests
 	http.Handle("/", router)
 

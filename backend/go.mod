@@ -1,10 +1,10 @@
-module Distributed-Systems-24-summer
+module Distributed-Systems-24-summer/backend
 
 go 1.22.3
 
 require (
 	github.com/gorilla/mux v1.8.0
-	github.com/swaggo/http-swagger v1.3.2
+	github.com/swaggo/http-swagger v1.3.4
 	go.mongodb.org/mongo-driver v1.8.4
 )
 

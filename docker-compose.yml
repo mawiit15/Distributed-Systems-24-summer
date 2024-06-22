@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   backend:
+    image: gtorfo/todobackend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -28,9 +29,6 @@ services:
 
   todoui-thymeleaf:
     image: maeddes/todoui-thymeleaf:hse24
-    build:
-      context: ./todoui-thymeleaf
-      dockerfile: Dockerfile #-multistage
     ports:
       - "8090:8090"
     environment:

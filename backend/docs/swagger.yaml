@@ -1,5 +1,12 @@
+basePath: /todos
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: frloit01@hs-esslingen.de
+    name: Friedrich Lohrmann
+  description: Backend endpoints created for distributed systems lab
+  title: Todo API
+  version: "1.0"
 paths:
   /todos/:
     get:
@@ -40,7 +47,7 @@ paths:
           description: Internal Server Error
           schema:
             type: string
-      summary: GDELETE method for one task
+      summary: DELETE method for one task
       tags:
       - todos
     get:
@@ -63,6 +70,28 @@ paths:
           schema:
             type: string
       summary: GET method for one task
+      tags:
+      - todos
+    post:
+      description: POST method for a new task
+      parameters:
+      - description: task title
+        in: path
+        name: task
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: POST method for a new task
       tags:
       - todos
 swagger: "2.0"
