@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-db
+  template:
+    metadata:
+      labels:
+        app: mongo-db
+    spec:
+      containers:
+      - name: mongo-db
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "superuser"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "superuser"
+        - name: MONGO_INITDB_DATABASE
+          value: "todo_db"
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+        - name: mongo-init-script
+          mountPath: /docker-entrypoint-initdb.d/mongo_db_init.sh
+          subPath: mongo_db_init.sh
+      volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+      - name: mongo-init-script
+        configMap:
+          name: mongo-init-script
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
